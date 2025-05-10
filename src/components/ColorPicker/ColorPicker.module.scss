@@ -1,0 +1,32 @@
+.colorPicker {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+
+  color: white;
+
+  div {
+    justify-content: center;
+    display: flex;
+  }
+
+  button {
+    transition: 0.2s;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: solid 1px white;
+    cursor: pointer;
+  }
+
+  button:hover {
+    transition: 0.2s;
+    color: white;
+    border: solid 1px white;
+  }
+}

@@ -1,0 +1,38 @@
+.trackInfos {
+  position: relative;
+  .trackInfo {
+    color: white;
+    position: absolute;
+    left: 10%;
+    transform: translate(-20%, 80%);
+    padding: 10px;
+    background: rgba(31, 31, 31, 0.441);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    width: fit-content;
+
+    .cover {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-direction: row;
+      img {
+        width: 50%;
+      }
+      h2 {
+        margin: 0px;
+      }
+    }
+    .artist {
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      img {
+        border-radius: 100px;
+        width: 30px;
+      }
+    }
+  }
+}

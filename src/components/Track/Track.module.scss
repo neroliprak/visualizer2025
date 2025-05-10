@@ -1,0 +1,53 @@
+.track {
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 10px 0;
+  padding-left: 10px;
+  border-radius: 0px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 119, 255, 0.375);
+  }
+
+  .order {
+    width: 10%;
+  }
+
+  .title {
+    width: 50%;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    .cover {
+      height: 40px;
+      width: 40px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .trackName {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 300px;
+      }
+    }
+  }
+}
+
+.selected {
+  background-color: rgba(90, 127, 168, 0.375);
+  border-left: 4px solid white;
+  font-weight: bold;
+}
+.hovered {
+  background-color: rgba(0, 119, 255, 0.375);
+}
