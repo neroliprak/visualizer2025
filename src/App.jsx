@@ -15,6 +15,7 @@ function App() {
       {/* Affiche les contrôles audio si une track est lancée */}
       {currentSrc && <AudioPlayerControl />}
       <TrackInfo />
+
       <Landing />
       <Dropzone />
       <Picker />

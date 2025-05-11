@@ -83,6 +83,12 @@ const AudioPlayerControl = () => {
     audioController.setLoop(newLoop);
   };
 
+  // Fonction pour choisir une track aléatoire
+  const playRandomTrack = () => {
+    const randomIndex = Math.floor(Math.random() * tracks.length); // Choisir un index aléatoire
+    playTrackAtIndex(randomIndex); // Jouer la track à cet index
+  };
+
   // Lecture audio si track sélectionné
   useEffect(() => {
     if (currentSrc) {
@@ -97,20 +103,29 @@ const AudioPlayerControl = () => {
 
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(audio.duration);
+    const handleEnded = () => {
+      if (isLooping) {
+        audioController.seekTo(0);
+        audioController.resume();
+      } else {
+        playNext(); // Passer à la piste suivante si non en boucle
+      }
+    };
 
     if (audio) {
       audio.addEventListener("timeupdate", updateTime);
       audio.addEventListener("loadedmetadata", updateDuration);
+      audio.addEventListener("ended", handleEnded);
     }
 
-    // clean
     return () => {
       if (audio) {
         audio.removeEventListener("timeupdate", updateTime);
         audio.removeEventListener("loadedmetadata", updateDuration);
+        audio.removeEventListener("ended", handleEnded);
       }
     };
-  }, []);
+  }, [isLooping, currentTrackIndex, tracks]);
 
   return (
     <div className={s.audio}>
@@ -168,6 +183,9 @@ const AudioPlayerControl = () => {
                 alt="Suivant"
                 className={s.icon}
               />
+            </button>
+            <button onClick={playRandomTrack} className={s.randomButton}>
+              <img src="/images/shuffle.svg" alt="Random" className={s.icon} />
             </button>
           </div>
         </div>

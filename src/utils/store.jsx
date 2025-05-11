@@ -14,6 +14,14 @@ const useStore = create((set) => ({
 
   currentTrackIndex: null,
   setCurrentTrackIndex: (index) => set(() => ({ currentTrackIndex: index })),
+
+  likedTracks: JSON.parse(localStorage.getItem("likedTracks")) || [],
+  setTracks: (_tracks) => set(() => ({ tracks: _tracks })),
+  setLikedTracks: (likedTracks) =>
+    set(() => {
+      localStorage.setItem("likedTracks", JSON.stringify(likedTracks));
+      return { likedTracks };
+    }),
 }));
 
 export default useStore;

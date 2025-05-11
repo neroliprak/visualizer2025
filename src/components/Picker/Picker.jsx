@@ -28,7 +28,7 @@ const VISUALIZERS = [
 ];
 
 const Picker = () => {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(4);
 
   // Met l'objet 3D sélectionné
   const pickVisualizer = (index) => {

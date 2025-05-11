@@ -28,4 +28,7 @@ Ce que j'ai ajouté :
 # Ajout couleur scrollbar
 # Affichage de la track en cours, la cover, l'artiste
 # Reset de la barre de recherche de deezer
-
+# La musique passent automatiquement à la musique suivante à la fin
+# Ajout d'un loader à l'appel de l'API
+# Un bouton aléatoire sur la liste des tracks
+# Like local

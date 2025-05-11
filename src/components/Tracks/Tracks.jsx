@@ -9,10 +9,11 @@ import audioController from "../../utils/AudioController";
 
 const Tracks = () => {
   const [showTracks, setShowTracks] = useState(false);
-  const { tracks, setTracks } = useStore();
+  const { tracks, setTracks, playlist } = useStore();
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
   const [hoveredTrackIndex, setHoveredTrackIndex] = useState(null);
   const [searchInput, setSearchInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Détecte les flèches du haut et bas pour se déplacer dans la tracklsit (précédent / suivant)
   useEffect(() => {
@@ -66,12 +67,14 @@ const Tracks = () => {
   // Saisie de recherche des artistes pour API deezer
   const onKeyDown = (e) => {
     if (e.keyCode === 13 && e.target.value !== "") {
+      e.preventDefault();
       const userInput = e.target.value;
       getSongs(userInput);
     }
   };
 
   const getSongs = async (userInput) => {
+    setLoading(true);
     let response = await fetchJsonp(
       `https://api.deezer.com/search?q=${userInput}&output=jsonp`
     );
@@ -86,6 +89,7 @@ const Tracks = () => {
       });
       setTracks(_tracks);
     }
+    setLoading(false);
   };
 
   // Ouverture de la tracklist avec "TAB"
@@ -112,53 +116,70 @@ const Tracks = () => {
 
   return (
     <>
-      <div
-        className={s.toggleTracks}
-        onClick={() => setShowTracks(!showTracks)}
-      >
-        <img src="/images/align-justify.svg" alt="Toggle" className={s.icon} />
-        <span>Tracklist</span>
-      </div>
+      {loading && (
+        <div className={s.loaders}>
+          <div className={s.loader}></div>
+          <p>En attente de l'API deezer</p>
+          <button onClick={() => window.location.reload()}>REVENIR HOME</button>
+        </div>
+      )}
 
-      <section
-        className={`${s.wrapper} ${showTracks ? s.wrapper_visible : ""}`}
-      >
-        <div className={s.tracks}>
-          <div className={s.header}>
-            <span className={s.order}>#</span>
-            <span className={s.title}>Titre</span>
-            <span className={s.duration}>Durée</span>
+      {!loading && (
+        <>
+          <div
+            className={s.toggleTracks}
+            onClick={() => setShowTracks(!showTracks)}
+          >
+            <img
+              src="/images/align-justify.svg"
+              alt="Toggle"
+              className={s.icon}
+            />
+            <span>Tracklist</span>
           </div>
 
-          {tracks.map((track, i) => (
-            <Track
-              key={track.title + i}
-              title={track.title}
-              duration={track.duration}
-              cover={track.album.cover_xl}
-              src={track.preview}
-              index={i}
-              isSelected={selectedTrackIndex === i}
-              isHovered={hoveredTrackIndex === i}
-              onClick={() => setSelectedTrackIndex(i)}
-            />
-          ))}
-        </div>
+          <section
+            className={`${s.wrapper} ${showTracks ? s.wrapper_visible : ""}`}
+          >
+            <div className={s.tracks}>
+              <div className={s.header}>
+                <span className={s.order}>#</span>
+                <span className={s.title}>Titre</span>
+                <span className={s.duration}>Durée</span>
+                <span>Like</span>
+              </div>
 
-        <div className={s.search}>
-          <input
-            type="text"
-            placeholder="Chercher un artiste"
-            className={s.searchInput}
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={onKeyDown}
-          />
-          <button className={s.resetBtn} onClick={resetSearch}>
-            Réinitialiser
-          </button>
-        </div>
-      </section>
+              {tracks.map((track, i) => (
+                <Track
+                  key={track.title + i}
+                  title={track.title}
+                  duration={track.duration}
+                  cover={track.album.cover_xl}
+                  src={track.preview}
+                  index={i}
+                  isSelected={selectedTrackIndex === i}
+                  isHovered={hoveredTrackIndex === i}
+                  onClick={() => setSelectedTrackIndex(i)}
+                />
+              ))}
+            </div>
+
+            <div className={s.search}>
+              <input
+                type="text"
+                placeholder="Chercher un artiste"
+                className={s.searchInput}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                onKeyDown={onKeyDown}
+              />
+              <button className={s.resetBtn} onClick={resetSearch}>
+                Réinitialiser
+              </button>
+            </div>
+          </section>
+        </>
+      )}
     </>
   );
 };

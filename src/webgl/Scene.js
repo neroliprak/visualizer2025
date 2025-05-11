@@ -126,8 +126,8 @@ class Scene {
 
     // ajout de l'objet à la scène par défaut
     this.camera.position.z = 20;
-    this.scene.add(this.board.group);
-    this.currentObject = this.board;
+    this.scene.add(this.trumpet.group);
+    this.currentObject = this.trumpet;
   }
 
   onResize = () => {

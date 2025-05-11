@@ -36,6 +36,11 @@ const Landing = () => {
           <li>Ajout couleur scrollbar</li>
           <li>Affichage de la track en cours, la cover, l'artiste</li>
           <li>Reset de la barre de recherche de deezer</li>
+          <li>
+            La musique passent automatiquement à la musique suivante à la fin
+          </li>
+          <li>Un bouton aléatoire sur la liste des tracks</li>
+          <li>Like local</li>
         </ul>
 
         <Button label={"Commencer"} onClick={onClick} />

@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import audioController from "../../utils/AudioController";
 import scene from "../../webgl/Scene";
 import s from "./Track.module.scss";
-import useStore from "../../utils/store"; // Importer useStore pour accéder au store
+import useStore from "../../utils/store";
 import { getSeconds } from "../../utils/getSeconds";
 
 // Une track de musique au sein de la tracklist
@@ -16,15 +16,30 @@ const Track = ({
   isHovered,
   onClick,
 }) => {
-  const { setCurrentSrc, setCurrentTrackIndex } = useStore(); // Ajouter setCurrentTrackIndex ici
+  const { setCurrentSrc, setCurrentTrackIndex, likedTracks, setLikedTracks } =
+    useStore();
+
+  // Regarde les morceau liké (src)
+  const isLiked = likedTracks.find((likedTrack) => likedTrack.src === src);
+
+  // Like / Pas like
+  const toggleLike = () => {
+    let updatedLikes;
+    if (isLiked) {
+      updatedLikes = likedTracks.filter((likedTrack) => likedTrack.src !== src);
+    } else {
+      updatedLikes = [...likedTracks, { title, cover, src, duration }];
+    }
+    setLikedTracks(updatedLikes);
+  };
 
   // Lance la track cliqué "click souris"
   const handleClick = () => {
     audioController.stop();
     audioController.play(src);
     scene.cover.setCover(cover);
-    setCurrentSrc(src); // Met à jour la source audio
-    setCurrentTrackIndex(index); // Met à jour l'index de la piste courante
+    setCurrentSrc(src);
+    setCurrentTrackIndex(index);
     onClick();
   };
 
@@ -60,6 +75,12 @@ const Track = ({
         </div>
       </div>
       <span className={s.duration}>{getSeconds(duration)}</span>
+      <button
+        className={`${s.likeButton} ${isLiked ? s.liked : ""}`}
+        onClick={toggleLike}
+      >
+        <img src="/images/heart.svg" alt="Like" />
+      </button>
     </div>
   );
 };
